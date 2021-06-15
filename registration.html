@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Registration Form</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+
+            <div class="col-md-6 main">
+
+                <form id="register-form" action="http://localhost:4000/api/auth/register" method="post">
+
+                    <h1> Registration form </h1>
+
+                    <input class="box" type="text" name="firstName" id="firstName" placeholder="First Name"
+                        required /><br>
+                    <input class="box" type="text" name="lastName" id="lastName" placeholder="Last Name" required /><br>
+                    <input class="box" type="email" name="email" id="email" placeholder="E-Mail" required /><br>
+
+                    <input class="box" type="password" name="password" id="password" placeholder="Password"
+                        required /><br>
+                    <input class="box" type="text" name="age" id="age" placeholder="Age" required />
+                    <br>
+                    <input class="box" type="text" name="gender" id="gender" placeholder="Gender" required />
+                    <br>
+                    <input type="submit" id="submitDetails" name="submitDetails" value="Submit" /><br>
+
+                </form>
+
+            </div>
+
+
+            <div class="col-md-3">
+            </div>
+
+        </div>
+    </div>
+    <script>
+
+        window.addEventListener("load", function () {
+            function sendData() {
+                let form = document.getElementById("register-form");
+                let firstName = form.elements['0'].value;
+                let lastName = form.elements['1'].value;
+                let email = form.elements['2'].value;
+                let password = form.elements['3'].value;
+                let age = form.elements['4'].value;
+                let gender = form.elements['5'].value;
+
+                const XHR = new XMLHttpRequest();
+
+                // Bind the FormData object and the form element
+                const FD = new FormData({firstName, lastName, email, password, age, gender, userType:"USER"});
+                console.log(FD);
+
+                // Define what happens on successful data submission
+                XHR.addEventListener("load", function (event) {
+                    alert(event.target.responseText);
+                });
+
+                // Define what happens in case of error
+                XHR.addEventListener("error", function (event) {
+                    alert('Oops! Something went wrong.');
+                });
+
+                // Set up our request
+                XHR.open("POST", "http://localhost:4000/api/auth/register");
+
+                // The data sent is what the user provided in the form
+                XHR.send(FD);
+            }
+
+            // Access the form element...
+            const form = document.getElementById("register-form");
+
+            // ...and take over its submit event.
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                sendData();
+            });
+        });
+
+
+        // $(document).ready(function () {
+        //     $('form').submit(function (event) {
+        //         event.preventDefault();
+        //         //collect the form data using Id Selector what ever data you need to send to server
+        //         let firstName = $('#firstName').val();
+        //         let lastName = $('#lastName').val();
+        //         let email = $('#email').val();
+        //         let password = $('#password').val();
+        //         let age = $("#age").val();
+        //         let gender = $("#gender").val();
+        //         console.log($("form").serialize());
+        //         $.ajax({
+        //             type: "POST",
+        //             url: 'http://localhost:4000/api/auth/register',
+        //             body: {
+        //                 userType: "USER",
+        //                 firstName: firstName,
+        //                 lastName: lastName,
+        //                 email: email,
+        //                 password: password,
+        //                 age: age, 
+        //                 gender: gender
+        //             }
+        //         }).done(function (data) {
+        //             console.log(data)
+        //         }).fail(function (error) {
+        //             console.log(error.responseText)
+        //         })
+        //     });
+        // })
+    </script>
+</body>
+
+</html>
